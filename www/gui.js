@@ -2,7 +2,7 @@ modone = angular.module('modone', [])
     .controller('DeskCtrl', ['$scope', function($scope) {
         $scope.name = 'Desk Controller'
         $scope.skyts = ['a', 'b', 'c']
-        $scope.debug='listening'
+        $scope.debug=''
         $scope.$on('swipeleft', function() {
             $scope.debug= 'swipeleft'
         })
@@ -56,13 +56,15 @@ modone = angular.module('modone', [])
                 var hO = new Hammer(el[0])
                 var hI = new Hammer(o.parent)
                 hI.on('tap', function(e) {
-                    var animation = {}
-                    animation[side] = 0
-                    if(parseInt($(el[0]).css(side)) >= 0)
-                        animation[side] =  setting.border[side] - (side=='top' || side=='bottom'?height:width-10)
-                    else
-                        slideIn($(o.grandchildren), (side=='top'||side=='bottom'?'Y':'X'), (side=='top'||side=='left'?-80:80))
-                    $(el[0]).velocity(animation, {'duration': 200, 'easing': 'easeOutCubic'})
+                    if(e.target.id == '') {
+                        var animation = {}
+                        animation[side] = 0
+                        if(parseInt($(el[0]).css(side)) >= 0)
+                            animation[side] =  setting.border[side] - (side=='top' || side=='bottom'?height:width-10)
+                        else
+                            slideIn($(o.grandchildren), (side=='top'||side=='bottom'?'Y':'X'), (side=='top'||side=='left'?-80:80))
+                        $(el[0]).velocity(animation, {'duration': 200, 'easing': 'easeOutCubic'})
+                    }
                 })
                 hI.on('panmove', function(e) {
                     if(parseInt($(el[0]).css(side)) >= 0) {
@@ -158,11 +160,15 @@ modone = angular.module('modone', [])
                     else
                         scope.style['margin-right'] = setting.border - 30 - 1 + 'px'
                 }
+                h = new Hammer(el[0], {domEvents: false} )
+                h.on('tap', function(e) {
+                    console.log('card')
+                })
             },
             restrict: 'E',
             replace: true,
             scope: {},
             transclude: true,
-            template: '<paper-shadow z="1" ng-style="style"><ng-transclude></ng-transclude></paper-shadow> '
+            template: '<paper-shadow id="card" z="1" ng-style="style"><ng-transclude></ng-transclude></paper-shadow> '
         }
     })
