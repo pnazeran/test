@@ -19,20 +19,21 @@
         <pane id=leftpane side='left' init-open='false' width=200 bgc="#0aa" zi=1></pane>
         <pane id=rightpane side='right' init-open='true' width=200 bgc="#aa0" zi=2></pane>
         <pane id=bottompane side='bottom' init-open='true' height=40 bgc="#00a" zi=4></pane>
-        <div style="position:absolute;top:150px;left:300px">
+        
+        <paper-shadow id=floating_card z="1" style="margin:0px"></paper-shadow>
+        <paper-shadow id=edit_left z="0" style="position:absolute;top:50px;left:150px;padding:16px;width:10px">
             TODO: <br>
             <ul>
-                <li>Makes the cards draggable/swipable</li>
                 <li>Make the cards resizable in the other dimension too</li>
-                <li>Deal with cards that don't fit</li>
+                <li>Open a card</li>
                 <li><ul>Push to GitHub
                     <li>git add www/</li>
                     <li>git commit -m 'message'</li>
                     <li>git push origin master</li>
                 </ul></li>
             </ul>
-        </div>
-        <div id=debug style="position:absolute;top:400px;left:300px">
+        </paper-shadow>
+        <div id=debug style="position:absolute;top:400px;left:150px">
             debug: <br>
             {{debug}}
         </div>

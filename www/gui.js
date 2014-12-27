@@ -9,10 +9,10 @@ modone = angular.module('modone', [])
         $scope.$on('swiperight', function() {
             $scope.debug= 'swiperight'
         })
+        $('#edit_left').css('width', window.innerWidth * 0.3 +'px')
     }])
     .filter('Offset', [function() {
         return function(obj, offset, size) {
-            //var size = 5
             if(offset < 0)
                 offset = offset % obj.length + obj.length
             var res = []
@@ -96,7 +96,6 @@ modone = angular.module('modone', [])
                         its_scrolling = true
                     else if((side == 'top' || side == 'bottom') && Math.abs(e.deltaY) < Math.abs(e.deltaX)) 
                         its_scrolling = true
-                    
                 })
                 scope.updated = false
                 hI.on('panmove', function(e) {
@@ -182,7 +181,7 @@ modone = angular.module('modone', [])
 			            '</paper-shadow>' + 
 			          '</div>'
 		}
-    }).directive('card', function() {
+    }).directive('card', ['$timeout', function($timeout) {
         return {
             link: function(scope, el, attr) {
                 var setting = {'border': {'top': 40, 'bottom': 40, 'right': 20, 'left': 20}}
@@ -250,17 +249,36 @@ modone = angular.module('modone', [])
                 h.on('panend', function(e) {
                     if(!its_scrolling) {
                         if(side == 'top' || side == 'bottom') {
-                            $(el[0]).velocity({'margin-left': 16 + (270 + 16*3)*scope.index + scope.$parent.$parent.offset.pixel + 'px', 
-                                               'margin-top': setting.border.top - (side=='bottom'?37:24) + 'px'}
-                                            , {'duration': 300, easing: 'easeInOutCubic'})
                             scope.$apply(function() {
                                 scope.style['margin-left'] = 16 + (270 + 16*3)*scope.index + scope.$parent.$parent.offset.pixel + 'px'
                                 scope.style['margin-top'] = setting.border.top - (side=='bottom'?37:24) + 'px'
                             })
+                            $(el[0]).velocity({'margin-left': 16 + (270 + 16*3)*scope.index + scope.$parent.$parent.offset.pixel + 'px', 
+                                               'margin-top': setting.border.top - (side=='bottom'?37:24) + 'px'}
+                                            , {'duration': 300, easing: 'easeInOutCubic'})
                         } else {
+/*
+                            scope.$apply(function() {
+                                scope.style['margin-left'] = setting.border.left - (side=='left'?4:0) + 'px';
+                                scope.style['margin-top'] = 16 + (24+16*3)*scope.index + scope.$parent.$parent.offset.pixel + 'px';
+                            })
                             $(el[0]).velocity({'margin-left': setting.border.left - (side=='left'?4:0) + 'px', 
                                                'margin-top': 16 + (24+16*3)*scope.index + scope.$parent.$parent.offset.pixel + 'px'}
                                             , {'duration': 300, easing: 'easeInOutCubic'})
+*/
+                            
+//                            console.log($(el[0]).offset().top + ' ' + $(el[0]).offset().left + ' ' + $(el[0]).css('width') + ' ' + $(el[0]).css('height'))
+                            $('#floating_card').css('top', $(el[0]).offset().top +'px').css('left', $(el[0]).offset().left +'px')
+                                                .css('width', $(el[0]).css('width')).css('height', $(el[0]).css('height'))
+                                                .css('padding', '16px').css('background-color', bgc).css('opacity', 1)
+                            $('#floating_card').velocity({'top': '50px', 'left': '150px'
+                                                        , 'width': window.innerWidth * 0.3 + 'px'}
+                                                        , {'duration': 300, easing: 'linear'
+                                                            , 'complete': function() {
+                                                                $timeout(function() {$('#edit_left').html($(el[0]).html())}, 50)
+                                                                $('#floating_card').velocity({'height': '400px', 'opacity': 0}, {'easing': 'easeInCirc'})
+                                                            }
+                                                        })
                             scope.$apply(function() {
                                 scope.style['margin-left'] = setting.border.left - (side=='left'?4:0) + 'px';
                                 scope.style['margin-top'] = 16 + (24+16*3)*scope.index + scope.$parent.$parent.offset.pixel + 'px';
@@ -270,7 +288,7 @@ modone = angular.module('modone', [])
                         its_scrolling = false
                 })
                 scope.$parent.$parent.$watch('offset', function(offset) {
-                    if(side == 'top' || side == 'bottom'){
+                    if(side == 'top' || side == 'bottom') {
                         if(scope.$parent.$parent != null)
                             scope.style['margin-left'] = 16 + (270+16*3)*scope.index + scope.$parent.$parent.offset.pixel + 'px' 
                     } else {
@@ -295,4 +313,4 @@ modone = angular.module('modone', [])
             transclude: true,
             template: '<paper-shadow id="card" z="1" ng-style="style"><ng-transclude></ng-transclude></paper-shadow> '
         }
-    })
+    }])
