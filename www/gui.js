@@ -1,4 +1,4 @@
-modone = angular.module('modone', [])
+modone = angular.module('modone', ['ngResource'])
     .controller('DeskCtrl', ['$scope', function($scope) {
         $scope.name = 'Desk Controller'
         $scope.skyts = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm']
@@ -21,7 +21,7 @@ modone = angular.module('modone', [])
             return res
         }
     }])
-    .directive('pane', function($rootScope) {
+    .directive('pane', ['$rootScope', function($rootScope) {
         return {
             link: function(scope, el, attr) {
                 var setting = {'border': {'top': 40, 'bottom': 40, 'right': 90, 'left': 90}}
@@ -181,14 +181,14 @@ modone = angular.module('modone', [])
 			            '</paper-shadow>' + 
 			          '</div>'
 		}
-    }).directive('card', ['$timeout', function($timeout) {
+    }]).directive('card', ['$timeout', function($timeout) {
         return {
             link: function(scope, el, attr) {
                 var setting = {'border': {'top': 40, 'bottom': 40, 'right': 20, 'left': 20}}
                 var side = scope.$parent.$parent.side
                 var bgc = '#eee'
                 scope.height = scope.$parent.$parent._height - (side=='top'?87:0) - (side=='bottom'?22:0)
-                scope.style={'padding': '16px'
+                scope.style= {'padding': '16px'
                             , 'margin-top': '16px'
                             , 'margin-left': '16px'
                             , 'margin-bottom': '16px'
@@ -266,8 +266,6 @@ modone = angular.module('modone', [])
                                                'margin-top': 16 + (24+16*3)*scope.index + scope.$parent.$parent.offset.pixel + 'px'}
                                             , {'duration': 300, easing: 'easeInOutCubic'})
 */
-                            
-//                            console.log($(el[0]).offset().top + ' ' + $(el[0]).offset().left + ' ' + $(el[0]).css('width') + ' ' + $(el[0]).css('height'))
                             $('#floating_card').css('top', $(el[0]).offset().top +'px').css('left', $(el[0]).offset().left +'px')
                                                 .css('width', $(el[0]).css('width')).css('height', $(el[0]).css('height'))
                                                 .css('padding', '16px').css('background-color', bgc).css('opacity', 1)
