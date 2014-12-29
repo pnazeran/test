@@ -1,5 +1,36 @@
 <paper-shadow z=5 ng-style="style">
-    <paper-input label="ID" floatingLabel></paper-input><br>
-    <paper-input label="Private Phrase" floatingLabel></paper-input><br>
-    <paper-button raised style="background:#9368d4;color:#4205f4">Login</paper-button>
+    <paper-input label="ID" floatingLabel style="width:20%"></paper-input>&nbsp;&nbsp;
+    <paper-input label="Private Phrase" floatingLabel style="width:65%"></paper-input>
+    <paper-button raised style="background:#9368d4;color:#4205f4;vertical-align:bottom;margin-bottom:10px">Login</paper-button>
+    <br><br>
+    <paper-tabs selected="0" ng-model="user.type">
+        <paper-tab>Everyone</paper-tab>
+        <paper-tab>Geeks</paper-tab>
+        <paper-tab>Cryptographers</paper-tab>
+    </paper-tabs>
+    <paper-shadow ng-show="user.type == 0" style="height:50%;padding:10px">
+	    This is a website for secure communication.<br>
+        <paper-input label="ID" floatingLabel style="float:left;width:20%"></paper-input>
+        <paper-input label="Private Phrase" floatingLabel style="float:right;width:78%"></paper-input><br>
+    </paper-shadow>
+    <paper-shadow ng-show="user.type == 1" style="height:50%;padding:10px">
+	    This is an authenticationless, distributed, no-sql solution.<br>
+	    NSSA sands for No-SQL Sans Authentication (no pun intended) <br>
+        <paper-input label="ID" floatingLabel style="float:left;width:20%"></paper-input>
+        <paper-input label="Private Phrase" floatingLabel style="float:right;width:78%"></paper-input><br>
+    </paper-shadow>
+    <paper-shadow ng-show="user.type == 2" style="height:50%;padding:10px">
+	    This website encrypts all your communications with elliptical-curve encrpytion before they leave your computer.<br>
+        <paper-input label="ID" floatingLabel style="float:left;width:20%"></paper-input>
+        <paper-input label="Private Phrase" floatingLabel style="float:right;width:78%"></paper-input><br>
+        Prime Number: <select ng-model="pubkey.p" ng-options='item as item for item in primes'></select>
+        <paper-input label="x coordinate of G" ng-model="pubkey.G.x" floatingLabel style="width:130px"></paper-input>
+        <paper-input label="y coordinate of G" ng-model="pubkey.G.y" floatingLabel style="width:130px"></paper-input>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        y<sup>2</sup> = x<sup>3</sup> + 
+        <paper-input label="a" ng-model="pubkey.a" floatingLabel style="width:30px"></paper-input>.x + b
+        <br>
+        <paper-input label="Cardinality" floatingLabel ng-model="pubkey.n" onchange="setcardiality()"></paper-input> 
+    </paper-shadow>
+    <paper-button raised style="background:#9368d4;color:#4205f4;float:right">Sign up</paper-button>
 </paper-shadow>

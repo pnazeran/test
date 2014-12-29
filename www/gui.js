@@ -1,4 +1,4 @@
-modone = angular.module('modone', ['ngResource'])
+modone = angular.module('modone', ['ngResource', 'ngMaterial', 'ng-polymer-elements'])
     .controller('DeskCtrl', ['$scope', function($scope) {
         $scope.name = 'Desk Controller'
         $scope.skyts = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm']

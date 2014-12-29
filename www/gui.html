@@ -4,16 +4,24 @@
     <meta name="viewport" content="user-scalable=no">
     <script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular-animate.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular-aria.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular-resource.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
     <script src="velocity.min.js"></script>
     <script src="velocity.ui.js"></script>
     <script src="https://www.polymer-project.org/components/webcomponentsjs/webcomponents.js"></script>
-    
+
     <link rel="import" href="https://www.polymer-project.org/components/paper-shadow/paper-shadow.html">
     <link rel="import" href="https://www.polymer-project.org/components/paper-ripple/paper-ripple.html">
     <link rel="import" href="https://www.polymer-project.org/components/paper-input/paper-input.html">
     <link rel="import" href="https://www.polymer-project.org/components/paper-button/paper-button.html">
+    <link rel="import" href="https://www.polymer-project.org/components/paper-tabs/paper-tabs.html">
+    <link rel="import" href="https://www.polymer-project.org/components/paper-dropdown-menu/paper-dropdown-menu.html">
+    
+    <script src="ng-material.js"></script>
+    <style src="ng-material.css"></style>
+    <script src="ng-polymer-elements.js"></script>
     <script src="gui.js"></script>
     <script src="db.js"></script>
     <script src="login.js"></script>
@@ -27,7 +35,7 @@
         <pane id=bottompane side='bottom' init-open='true' height=40 bgc="#00a" zi=4></pane>
         
         <paper-shadow id=floating_card z="1" style="margin:0px"></paper-shadow>
-        <paper-shadow id=edit_left z="0" style="position:absolute;top:450px;left:150px;padding:16px">
+        <paper-shadow id=edit_left z="0" style="position:absolute;top:450px;left:150px;padding:16px;visibility:hidden">
             TODO: <br>
             <ul>
                 <li>Make the cards resizable in the other dimension too</li>
@@ -39,7 +47,7 @@
                 </ul></li>
             </ul>
         </paper-shadow>
-        <div id=debug style="position:absolute;top:400px;left:150px">
+        <div id=debug style="position:absolute;top:400px;left:150px;visibility:hidden">
             debug: <br>
             {{debug}}
         </div>
