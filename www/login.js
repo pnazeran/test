@@ -5,7 +5,7 @@ modone.directive('nssaLogin', ['db', function(db) {
                             , 'top': '50px'
                             , 'left': '100px'
                             , 'width': '70%'//window.innerWidth * .7 +'px'
-                            , 'height': '70%'//window.innerHeight * .7 +'px'
+                            , 'height': '72%'//window.innerHeight * .7 +'px'
                             , 'background-color': '#eee'
                             , 'padding': '16px'
                 }
@@ -13,10 +13,20 @@ modone.directive('nssaLogin', ['db', function(db) {
                 scope.user = {uid: '', prvkey: '', auth: false, attempts: 0, type: 2, }
             	scope.pubkey = {p: '', a: '', G: {'x': '', 'y': ''}, GPrv: {'x': '', 'y': ''}, n: '', base: 36}
                 scope.primes = db.Primes()
+                scope.sage_25 = '#'
                 var updateCardinality = function() {
                     var Ns = db.Ns()
                     if(scope.pubkey.G.x == 1 && scope.pubkey.G.y == 2 && scope.pubkey.a == -3 && $.inArray(scope.pubkey.p.toString(), Object.keys(Ns)) > -1) 
             			scope.pubkey.n = Ns[scope.pubkey.p]
+            		scope.pubkey.base = 10
+            		p = new BigInteger(scope.pubkey.p, scope.pubkey.base)
+            		a = new BigInteger(scope.pubkey.a, scope.pubkey.base)
+            		gx = new BigInteger(scope.pubkey.G.x, scope.pubkey.base)
+            		gy = new BigInteger(scope.pubkey.G.y, scope.pubkey.base)
+                    b = gy.modPowInt(2, p).subtract(gx.modPowInt(3, p).add(gx.multiply(a))).mod(p)
+                    scope.sage_25 = b.toString(10)
+                    if(scope.show.n_is_ok)
+                        testCardinality()
                 }
                 scope.$watch(function(scope) {return scope.pubkey.p}
                             , function(nV, oV) { 

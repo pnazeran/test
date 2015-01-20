@@ -2,8 +2,8 @@
     <div>
         <paper-input label="ID" floatingLabel style="width:20%"></paper-input>&nbsp;&nbsp;
         <paper-input label="Private Phrase" floatingLabel style="width:65%"></paper-input>
-        <paper-button raised style="background:#9368d4;color:#4205f4;vertical-align:bottom;margin-bottom:10px"
-                ng-click="login()">Login</paper-button>
+        <md-button class="md-raised md-primary" style=""
+                ng-click="login()">Login</md-button>
     </div>
     <br><br>
     <paper-tabs selected="0" ng-model="user.type">
@@ -27,7 +27,7 @@
             <md-text-float ng-model="user.prvkey" label="Private Key"></md-text-float>
         </div>
     </md-whiteframe>
-    <md-whiteframe class="md-whiteframe-z1" ng-show="user.type == 2" style="height:100%;padding:10px">
+    <md-whiteframe class="md-whiteframe-z1" ng-show="user.type == 2" style="padding:10px">
 	    This website encrypts all your communications with elliptical-curve encrpytion before they leave your computer.<br>
 	    <div layout="row">
             <md-text-float label="ID" ng-model="user.uid"></md-text-float>&nbsp;&nbsp;
@@ -67,7 +67,9 @@
             </md-whiteframe>
         <div layout="row">
             <md-text-float label="Cardinality" ng-model="pubkey.n"></md-text-float>
-            <md-checkbox ng-disabled="true" style="padding-top:13px" ng-model="show.n_is_ok" aria-label="Validating the Provided Cardinality"></md-checkbox>
+            <md-checkbox ng-disabled="true" style="padding-top:13px" ng-model="show.n_is_ok" aria-label="Validating the Provided Cardinality">
+                sage: EllipticCurve(GF(p),[0,0,0,{{pubkey.a}},{{sage_25}}]).cardinality()
+            </md-checkbox>
         </div>
     </md-whiteframe>
     <div>
