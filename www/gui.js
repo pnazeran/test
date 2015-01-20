@@ -1,5 +1,5 @@
 modone = angular.module('modone', ['ngResource', 'ngMaterial', 'ng-polymer-elements'])
-    .controller('DeskCtrl', ['$scope', function($scope) {
+    .controller('DeskCtrl', ['$scope', '$mdDialog', '$timeout', function($scope, $mdDialog, $timeout) {
         $scope.name = 'Desk Controller'
         $scope.skyts = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm']
         $scope.debug=''
@@ -10,6 +10,42 @@ modone = angular.module('modone', ['ngResource', 'ngMaterial', 'ng-polymer-eleme
             $scope.debug= 'swiperight'
         })
         $('#edit_left').css('width', window.innerWidth * 0.3 +'px')
+        $scope.LoginDialog = function(e) {
+            $mdDialog.show({
+                templateUrl: 'login.html',
+                targetEvent: e,
+                controller: ['$scope', 'db', '$mdDialog', function($scope, db, $mdDialog) {
+                    $scope.style ={'position': 'absolute'
+                                , 'top': '50px'
+                                , 'left': '100px'
+                                , 'width': '70%'//window.innerWidth * .7 +'px'
+                                , 'height': '70%'//window.innerHeight * .7 +'px'
+                                , 'background-color': '#eee'
+                                , 'padding': '16px'
+                    }
+                    $scope.tmp = 0
+                    $scope.user = {uid: '', prvkey: '', auth: false, attempts: 0, type: 0, }
+                    $scope.primes = db.Primes()
+                    $scope.setcardiality = function() {
+                        console.log('cardinality')
+                		if($scope.pubkey.G.x == 1 && $scope.pubkey.G.y == 2 && $scope.pubkey.a == -3)  {
+                            console.log('tru')
+                			$scope.pubkey.n = db.Ns($scope.pubkey.p)
+                		}
+                	}
+                	$scope.login = function() {
+                	    console.log('$mdDialog.hide()')
+                	    $mdDialog.hide()
+                	}
+                	$scope.signup = function() {
+                	    console.log('$mdDialog.hide()')
+                	    $mdDialog.hide()
+                	}
+
+                }]
+            })
+        }
+//        $timeout(function() {$scope.LoginDialog()}, 10)
     }])
     .filter('Offset', [function() {
         return function(obj, offset, size) {

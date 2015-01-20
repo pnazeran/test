@@ -1,36 +1,83 @@
-<paper-shadow z=5 ng-style="style">
-    <paper-input label="ID" floatingLabel style="width:20%"></paper-input>&nbsp;&nbsp;
-    <paper-input label="Private Phrase" floatingLabel style="width:65%"></paper-input>
-    <paper-button raised style="background:#9368d4;color:#4205f4;vertical-align:bottom;margin-bottom:10px">Login</paper-button>
+<md-whiteframe layout="column" class="md-whiteframe-z5" ng-style="style">
+    <div>
+        <paper-input label="ID" floatingLabel style="width:20%"></paper-input>&nbsp;&nbsp;
+        <paper-input label="Private Phrase" floatingLabel style="width:65%"></paper-input>
+        <paper-button raised style="background:#9368d4;color:#4205f4;vertical-align:bottom;margin-bottom:10px"
+                ng-click="login()">Login</paper-button>
+    </div>
     <br><br>
     <paper-tabs selected="0" ng-model="user.type">
         <paper-tab>Everyone</paper-tab>
         <paper-tab>Geeks</paper-tab>
         <paper-tab>Cryptographers</paper-tab>
     </paper-tabs>
-    <paper-shadow ng-show="user.type == 0" style="height:50%;padding:10px">
+    <md-whiteframe class="md-whiteframe-z1" ng-show="user.type == 0" style="position:relative;left:0px;bottom:0px;right:0px;margin:10px;padding:10px">
 	    This is a website for secure communication.<br>
-        <paper-input label="ID" floatingLabel style="float:left;width:20%"></paper-input>
-        <paper-input label="Private Phrase" floatingLabel style="float:right;width:78%"></paper-input><br>
-    </paper-shadow>
-    <paper-shadow ng-show="user.type == 1" style="height:50%;padding:10px">
+	    There is NO "Forgot Password" functionality. <br>
+	    <div layout="row">
+            <md-text-float ng-model="user.uid" label="ID"></md-text-float>&nbsp;&nbsp;
+            <md-text-float ng-model="user.prvkey" label="Private Phrase"></md-text-float>
+        </div>
+    </md-whiteframe>
+    <md-whiteframe class="md-whiteframe-z1" ng-show="user.type == 1" style="position:relative;left:0px;bottom:0px;right:0px;margin:10px;padding:10px">
 	    This is an authenticationless, distributed, no-sql solution.<br>
 	    NSSA sands for No-SQL Sans Authentication (no pun intended) <br>
-        <paper-input label="ID" floatingLabel style="float:left;width:20%"></paper-input>
-        <paper-input label="Private Phrase" floatingLabel style="float:right;width:78%"></paper-input><br>
-    </paper-shadow>
-    <paper-shadow ng-show="user.type == 2" style="height:50%;padding:10px">
+	    <div layout="row">
+            <md-text-float ng-model="user.uid" label="ID"></md-text-float>&nbsp;&nbsp;
+            <md-text-float ng-model="user.prvkey" label="Private Key"></md-text-float>
+        </div>
+    </md-whiteframe>
+    <md-whiteframe class="md-whiteframe-z1" ng-show="user.type == 2" style="height:100%;padding:10px">
 	    This website encrypts all your communications with elliptical-curve encrpytion before they leave your computer.<br>
-        <paper-input label="ID" floatingLabel style="float:left;width:20%"></paper-input>
-        <paper-input label="Private Phrase" floatingLabel style="float:right;width:78%"></paper-input><br>
-        Prime Number: <select ng-model="pubkey.p" ng-options='item as item for item in primes'></select>
-        <paper-input label="x coordinate of G" ng-model="pubkey.G.x" floatingLabel style="width:130px"></paper-input>
-        <paper-input label="y coordinate of G" ng-model="pubkey.G.y" floatingLabel style="width:130px"></paper-input>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        y<sup>2</sup> = x<sup>3</sup> + 
-        <paper-input label="a" ng-model="pubkey.a" floatingLabel style="width:30px"></paper-input>.x + b
-        <br>
-        <paper-input label="Cardinality" floatingLabel ng-model="pubkey.n" onchange="setcardiality()"></paper-input> 
-    </paper-shadow>
-    <paper-button raised style="background:#9368d4;color:#4205f4;float:right">Sign up</paper-button>
-</paper-shadow>
+	    <div layout="row">
+            <md-text-float label="ID" ng-model="user.uid"></md-text-float>&nbsp;&nbsp;
+            <md-text-float label="Private Key" ng-model="user.prvkey"></md-text-float>&nbsp;&nbsp;<span ng-class="{'red': user.prvkey.length > pubkey.p.length || (user.prvkey.length == pubkey.p.length && user.prvkey >= pubkey.p) }" style="margin-top:33px">({{user.prvkey.length}})</span>
+        </div>
+        y<sup>2</sup> = x<sup>3</sup> + a.x + b <br>
+	    <div layout="row">
+            <md-text-float label="y coordinate of G" ng-model="pubkey.G.y"></md-text-float>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <md-text-float label="x coordinate of G" ng-model="pubkey.G.x"></md-text-float>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <md-text-float label="a" ng-model="pubkey.a"></md-text-float>
+        </div>
+        <div layout="row">
+            <md-text-float label="Prime Number" ng-model="pubkey.p"></md-text-float>&nbsp;&nbsp;
+            <md-button class="md-raised" style="height:30px;top:25px"
+                ng-click="show.primes=!show.primes">&nbsp;...&nbsp;</md-button>
+        </div>
+            <md-whiteframe ng-if="show.primes" class="md-whiteframe-z2" style="position:fixed;top:100px;left:350px;right:120px;bottom:200px;overflow-y:scroll;z-index:10">
+                <md-content>
+                    <md-list>
+                        <md-item ng-repeat="p in primes">
+                            <md-item-content ng-click="setPrime(p)" class="clickable">
+                                <span class="md-tile-content wordwrap" style="margin-left:10px;margin-right:10px">
+                                    {{p}}
+                                </span>
+                            </md-item-content>
+                        </md-item>
+                    </md-list>
+                </md-content>
+                
+                <!--
+                <md-radio-group ng-model="pubkey.p">
+                    <md-radio-button ng-repeat="p in primes" ng-value="p" aria-label="{{p}}">
+                        <div class="wordwrap">{{p}}</div>
+                    </md-radio-button>
+                </md-radio-group>
+                -->
+            </md-whiteframe>
+        <div layout="row">
+            <md-text-float label="Cardinality" ng-model="pubkey.n"></md-text-float>
+            <md-checkbox ng-disabled="true" style="padding-top:13px" ng-model="show.n_is_ok" aria-label="Validating the Provided Cardinality"></md-checkbox>
+        </div>
+    </md-whiteframe>
+    <div>
+        <md-button class="md-raised md-primary" ng-disabled="user.type == 2 && !show.n_is_ok" style="float:right"
+                ng-click="signup()">Sign up</paper-button>
+    </div>
+    
+<!--
+try to resize md-text-float
+if didn't succeed, just use it for cardinality and use paper-input elsewhere
+-->
+</md-whiteframe>
+

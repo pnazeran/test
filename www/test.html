@@ -1,8 +1,32 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 
+    <link rel="stylesheet" href="//rawgit.com/angular/bower-material/master/angular-material.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular-animate.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular-aria.js"></script>
+
+
+<!--
+    <script src="ng-material.js"></script>
+    <link rel="stylesheet" href="ng-material.css"></link>
+    -->
+    <script src="//rawgit.com/angular/bower-material/master/angular-material.js"></script>
+
+    <script type="text/javascript">
+        modone = angular.module('modone', ['ngMaterial'])
+                .controller('TestCtrl', ['$scope', function($scope) {
+                    $scope.tmp = 'abc'
+                }])
+    </script>
 </head>
-<body>
-<!-- <iframe src="http://localhost:8080/#/embed/@1b460xcaz28/!19qa30lh05c" width='360px' height='360px'></iframe> -->
-<iframe src="https://xocdev.appspot.com/#/embed/!1k13ghuiy9s" width='360px' height='360px'></iframe> 
+<body ng-app='modone' ng-controller="TestCtrl">
+
+    <md-text-float lable="1234" ng-model='tmp'></md-text-float>
+
+
+
 </body>
+</html>
